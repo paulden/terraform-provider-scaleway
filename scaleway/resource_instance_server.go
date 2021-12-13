@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"strconv"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -677,6 +678,10 @@ func resourceScalewayInstanceServerUpdate(ctx context.Context, d *schema.Resourc
 			})
 			if err != nil {
 				return diag.FromErr(err)
+			}
+			//we wait to ensure to not detach the new ip.
+			if newIPID != "" {
+				time.Sleep(5 * time.Second)
 			}
 		}
 
